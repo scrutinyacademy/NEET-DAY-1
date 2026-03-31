@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEET Study Hub — Genetics & Organic Chemistry</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #13131a;
+    --surface2: #1c1c27;
+    --surface3: #252535;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.14);
+    --text: #f0f0f8;
+    --text2: #9898b0;
+    --text3: #5a5a72;
+    --accent-bio: #4ade80;
+    --accent-bio-dim: rgba(74,222,128,0.12);
+    --accent-chem: #60a5fa;
+    --accent-chem-dim: rgba(96,165,250,0.12);
+    --accent-gold: #fbbf24;
+    --accent-gold-dim: rgba(251,191,36,0.12);
+    --wrong: #f87171;
+    --wrong-dim: rgba(248,113,113,0.12);
+    --radius: 14px;
+    --radius-sm: 8px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* NAV */
+  .nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,10,15,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    display: flex; align-items: center; gap: 0;
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px; font-weight: 700;
+    color: var(--text);
+    padding: 16px 0;
+    margin-right: 32px;
+    white-space: nowrap;
+  }
+  .nav-logo span { color: var(--accent-bio); }
+  .nav-tabs { display: flex; gap: 0; flex: 1; overflow-x: auto; }
+  .nav-tab {
+    padding: 18px 18px;
+    font-size: 13px; font-weight: 500;
+    color: var(--text3);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: all 0.2s;
+    background: none; border-top: none; border-left: none; border-right: none;
+  }
+  .nav-tab:hover { color: var(--text2); }
+  .nav-tab.active { color: var(--text); border-bottom-color: var(--accent-gold); }
+  .nav-tab.bio.active { border-bottom-color: var(--accent-bio); color: var(--accent-bio); }
+  .nav-tab.chem.active { border-bottom-color: var(--accent-chem); color: var(--accent-chem); }
+
+  /* PAGES */
+  .page { display: none; padding: 32px 24px; max-width: 900px; margin: 0 auto; }
+  .page.active { display: block; }
+
+  /* SECTION HEADERS */
+  .section-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 5px 14px; border-radius: 99px;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .badge-bio { background: var(--accent-bio-dim); color: var(--accent-bio); }
+  .badge-chem { background: var(--accent-chem-dim); color: var(--accent-chem); }
+  .badge-gold { background: var(--accent-gold-dim); color: var(--accent-gold); }
+  h1 { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; line-height: 1.2; margin-bottom: 8px; }
+  h2 { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; margin: 32px 0 16px; }
+  h3 { font-size: 15px; font-weight: 600; margin: 20px 0 10px; color: var(--text2); }
+  p { color: var(--text2); font-size: 14.5px; line-height: 1.75; margin-bottom: 12px; }
+  strong { color: var(--text); font-weight: 500; }
+  .subtitle { font-size: 15px; color: var(--text2); margin-bottom: 32px; }
+
+  /* CARDS */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px 24px;
+    margin-bottom: 16px;
+  }
+  .card-title { font-size: 15px; font-weight: 600; margin-bottom: 10px; }
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin-bottom: 24px; }
+
+  /* KEY POINT BOXES */
+  .key-box {
+    border-left: 3px solid;
+    background: var(--surface2);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-size: 14px;
+  }
+  .key-box.bio { border-color: var(--accent-bio); }
+  .key-box.chem { border-color: var(--accent-chem); }
+  .key-box.gold { border-color: var(--accent-gold); }
+  .key-box .kl { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 6px; }
+  .key-box.bio .kl { color: var(--accent-bio); }
+  .key-box.chem .kl { color: var(--accent-chem); }
+  .key-box.gold .kl { color: var(--accent-gold); }
+
+  /* TABLE */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 13.5px; margin: 16px 0 24px; }
+  .data-table th { background: var(--surface3); color: var(--text2); font-weight: 500; padding: 10px 14px; text-align: left; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; }
+  .data-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--text2); }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table td:first-child { color: var(--text); font-weight: 500; }
+
+  /* DIAGRAM */
+  .diagram-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin: 20px 0;
+    font-size: 13px;
+    color: var(--text2);
+    text-align: center;
+  }
+  .dna-visual { display: flex; flex-direction: column; gap: 3px; align-items: center; padding: 12px 0; }
+  .dna-row { display: flex; align-items: center; gap: 4px; font-family: monospace; font-size: 12px; }
+  .base { display: inline-flex; align-items: center; justify-content: center;
+    width: 28px; height: 28px; border-radius: 50%; font-weight: 700; font-size: 12px; }
+  .base-a { background: rgba(74,222,128,0.2); color: #4ade80; }
+  .base-t { background: rgba(251,191,36,0.2); color: #fbbf24; }
+  .base-g { background: rgba(248,113,113,0.2); color: #f87171; }
+  .base-c { background: rgba(96,165,250,0.2); color: #60a5fa; }
+  .bond { color: var(--text3); font-size: 14px; width: 16px; text-align: center; }
+  .strand-label { font-size: 11px; color: var(--text3); margin: 4px 0; font-weight: 500; }
+
+  /* FLASHCARDS */
+  .fc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-top: 8px; }
+  .fc-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    min-height: 160px;
+    perspective: 1000px;
+    position: relative;
+  }
+  .fc-inner {
+    position: relative; width: 100%; height: 100%; min-height: 160px;
+    transition: transform 0.5s;
+    transform-style: preserve-3d;
+  }
+  .fc-card.flipped .fc-inner { transform: rotateY(180deg); }
+  .fc-front, .fc-back {
+    position: absolute; inset: 0;
+    backface-visibility: hidden;
+    padding: 20px;
+    border-radius: var(--radius);
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .fc-front { background: var(--surface); }
+  .fc-back { background: var(--surface2); transform: rotateY(180deg); }
+  .fc-term { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+  .fc-hint { font-size: 11px; color: var(--text3); }
+  .fc-def { font-size: 13px; color: var(--text2); line-height: 1.6; }
+  .fc-tag {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .fc-tag.bio { background: var(--accent-bio-dim); color: var(--accent-bio); }
+  .fc-tag.chem { background: var(--accent-chem-dim); color: var(--accent-chem); }
+  .fc-progress { display: flex; gap: 8px; margin-bottom: 20px; align-items: center; }
+  .fc-stat { font-size: 13px; color: var(--text2); }
+  .fc-stat span { color: var(--text); font-weight: 600; }
+
+  /* QUIZ */
+  .quiz-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+  .quiz-meta { font-size: 13px; color: var(--text2); }
+  .quiz-meta span { color: var(--text); font-weight: 600; }
+  .q-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+  .q-num { font-size: 11px; color: var(--text3); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 8px; }
+  .q-text { font-size: 15px; color: var(--text); line-height: 1.6; margin-bottom: 18px; font-weight: 400; }
+  .q-options { display: flex; flex-direction: column; gap: 10px; }
+  .q-opt {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 12px 16px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 14px; color: var(--text2);
+    transition: all 0.15s;
+  }
+  .q-opt:hover { border-color: var(--border2); color: var(--text); }
+  .q-opt.selected { border-color: var(--accent-gold); color: var(--text); background: var(--accent-gold-dim); }
+  .q-opt.correct { border-color: var(--accent-bio); color: var(--accent-bio); background: var(--accent-bio-dim); }
+  .q-opt.wrong { border-color: var(--wrong); color: var(--wrong); background: var(--wrong-dim); }
+  .q-opt-label {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--surface3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 600; flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .q-explanation {
+    display: none;
+    margin-top: 14px; padding: 14px;
+    background: var(--surface3); border-radius: var(--radius-sm);
+    font-size: 13.5px; color: var(--text2); line-height: 1.65;
+    border-left: 3px solid var(--accent-bio);
+  }
+  .q-explanation.show { display: block; }
+  .q-explanation.chem { border-color: var(--accent-chem); }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 22px; border-radius: var(--radius-sm);
+    font-size: 14px; font-weight: 500; cursor: pointer;
+    border: 1px solid var(--border2);
+    background: var(--surface2); color: var(--text);
+    transition: all 0.15s;
+  }
+  .btn:hover { background: var(--surface3); border-color: var(--border2); }
+  .btn.primary {
+    background: var(--accent-bio-dim);
+    border-color: var(--accent-bio);
+    color: var(--accent-bio);
+  }
+  .btn.primary:hover { background: rgba(74,222,128,0.2); }
+  .btn.chem-primary {
+    background: var(--accent-chem-dim);
+    border-color: var(--accent-chem);
+    color: var(--accent-chem);
+  }
+  .btn-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
+  .score-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    text-align: center;
+    margin: 24px 0;
+  }
+  .score-num { font-family: 'Playfair Display', serif; font-size: 56px; font-weight: 700; }
+  .score-num.good { color: var(--accent-bio); }
+  .score-num.ok { color: var(--accent-gold); }
+  .score-num.bad { color: var(--wrong); }
+  .score-label { font-size: 14px; color: var(--text2); margin-top: 4px; }
+  .mistake-entry {
+    background: var(--wrong-dim);
+    border: 1px solid rgba(248,113,113,0.2);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    font-size: 13.5px;
+    color: var(--text2);
+  }
+  .mistake-entry strong { color: var(--wrong); }
+
+  /* TABS inside page */
+  .sub-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); margin-bottom: 28px; }
+  .sub-tab {
+    padding: 12px 18px;
+    font-size: 13px; font-weight: 500;
+    color: var(--text3);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    background: none; border-top: none; border-left: none; border-right: none;
+    margin-bottom: -1px;
+    transition: all 0.15s;
+  }
+  .sub-tab:hover { color: var(--text2); }
+  .sub-tab.active { color: var(--text); border-bottom-color: var(--accent-gold); }
+  .sub-page { display: none; }
+  .sub-page.active { display: block; }
+
+  /* PROGRESS BAR */
+  .prog-bar { height: 4px; background: var(--surface3); border-radius: 99px; margin: 8px 0 20px; overflow: hidden; }
+  .prog-fill { height: 100%; border-radius: 99px; background: var(--accent-gold); transition: width 0.4s; }
+
+  /* LIST */
+  ul.concept-list { padding-left: 0; list-style: none; }
+  ul.concept-list li {
+    padding: 8px 0 8px 20px;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px; color: var(--text2);
+    position: relative;
+  }
+  ul.concept-list li::before { content: '→'; position: absolute; left: 0; color: var(--text3); }
+  ul.concept-list li:last-child { border-bottom: none; }
+  ul.concept-list li strong { color: var(--text); }
+
+  /* SCROLL */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 3px; }
+
+  @media (max-width: 600px) {
+    .nav-logo { font-size: 15px; margin-right: 16px; }
+    h1 { font-size: 24px; }
+    .page { padding: 20px 16px; }
+    .fc-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo">NEET <span>Hub</span></div>
+  <div class="nav-tabs">
+    <button class="nav-tab bio active" onclick="showPage('bio-theory')">Biology Theory</button>
+    <button class="nav-tab chem" onclick="showPage('chem-theory')">Chemistry Theory</button>
+    <button class="nav-tab bio" onclick="showPage('flashcards')">Flashcards</button>
+    <button class="nav-tab bio" onclick="showPage('bio-quiz')">Bio Quiz</button>
+    <button class="nav-tab chem" onclick="showPage('chem-quiz')">Chem Quiz</button>
+    <button class="nav-tab" onclick="showPage('mistake-diary')">Mistake Diary</button>
+  </div>
+</nav>
+
+<!-- ===================== BIO THEORY ===================== -->
+<div id="page-bio-theory" class="page active">
+  <div class="section-badge badge-bio">Chapter 5 · NCERT Class 12</div>
+  <h1>Molecular Basis of Inheritance</h1>
+  <p class="subtitle">DNA structure, replication, transcription, translation — complete NEET-focused notes</p>
+
+  <div class="sub-tabs">
+    <button class="sub-tab active" onclick="showSubPage('bio','dna')">DNA Structure</button>
+    <button class="sub-tab" onclick="showSubPage('bio','replication')">Replication</button>
+    <button class="sub-tab" onclick="showSubPage('bio','transcription')">Transcription</button>
+    <button class="sub-tab" onclick="showSubPage('bio','translation')">Translation</button>
+    <button class="sub-tab" onclick="showSubPage('bio','geneticcode')">Genetic Code</button>
+  </div>
+
+  <div id="bio-dna" class="sub-page active">
+    <h2>DNA Structure — The Double Helix</h2>
+    <p>DNA (Deoxyribonucleic acid) is the genetic material in most organisms. Watson and Crick proposed the double helix model in <strong>1953</strong>, based on Rosalind Franklin's X-ray diffraction data.</p>
+
+    <div class="key-box bio">
+      <div class="kl">Key Components</div>
+      A nucleotide = <strong>Phosphate group + Deoxyribose sugar (5-carbon) + Nitrogenous base</strong>. Nucleotides are linked by <strong>3'–5' phosphodiester bonds</strong>.
+    </div>
+
+    <h3>Nitrogenous Bases — Chargaff's Rules</h3>
+    <table class="data-table">
+      <tr><th>Type</th><th>Bases</th><th>Bonds</th><th>Pairing</th></tr>
+      <tr><td>Purines</td><td>Adenine (A), Guanine (G)</td><td>Double ring</td><td>A=T (2 H-bonds), G≡C (3 H-bonds)</td></tr>
+      <tr><td>Pyrimidines</td><td>Thymine (T), Cytosine (C)</td><td>Single ring</td><td>—</td></tr>
+    </table>
+    <p><strong>Chargaff's rule:</strong> [A] = [T] and [G] = [C]. Therefore A+G = T+C (purines = pyrimidines).</p>
+
+    <div class="diagram-box">
+      <div class="strand-label">5' → 3' (Template strand)</div>
+      <div class="dna-visual">
+        <div class="dna-row">
+          <span class="base base-a">A</span><span class="bond">═</span><span class="base base-t">T</span>
+        </div>
+        <div class="dna-row">
+          <span class="base base-t">T</span><span class="bond">═</span><span class="base base-a">A</span>
+        </div>
+        <div class="dna-row">
+          <span class="base base-g">G</span><span class="bond">≡</span><span class="base base-c">C</span>
+        </div>
+        <div class="dna-row">
+          <span class="base base-c">C</span><span class="bond">≡</span><span class="base base-g">G</span>
+        </div>
+        <div class="dna-row">
+          <span class="base base-a">A</span><span class="bond">═</span><span class="base base-t">T</span>
+        </div>
+      </div>
+      <div class="strand-label">3' → 5' (Coding strand)</div>
+      <p style="font-size:12px; margin-top:8px; color:var(--text3)">Two strands are antiparallel. Diameter = 2 nm. Pitch = 3.4 nm per turn (10 bp)</p>
+    </div>
+
+    <h3>Key Structural Features</h3>
+    <ul class="concept-list">
+      <li><strong>Antiparallel strands</strong> — one runs 5'→3', the other 3'→5'</li>
+      <li><strong>Right-handed helix</strong> — B-form is most common in cells</li>
+      <li><strong>3.4 nm per turn</strong> — each turn has 10 base pairs; each bp = 0.34 nm</li>
+      <li><strong>Diameter = 2 nm</strong> — consistent throughout the molecule</li>
+      <li><strong>Sugar-phosphate backbone</strong> is on the outside; bases inside (hydrophobic core)</li>
+      <li><strong>Major and minor grooves</strong> — proteins bind DNA at these grooves</li>
+    </ul>
+
+    <div class="key-box gold">
+      <div class="kl">NEET High Yield</div>
+      Human haploid genome has ~3.2 × 10⁹ bp. Total DNA per cell (diploid) = ~6.4 × 10⁹ bp. Length = ~2 metres. Histone proteins (H2A, H2B, H3, H4 — octamer; + H1 as linker) package DNA into nucleosomes. <strong>146 bp</strong> of DNA wraps around each nucleosome core (1.65 turns).
+    </div>
+
+    <h3>Nucleosome → Chromatin Levels</h3>
+    <table class="data-table">
+      <tr><th>Level</th><th>Structure</th><th>Diameter</th></tr>
+      <tr><td>Nucleosome</td><td>DNA + histone octamer</td><td>~11 nm</td></tr>
+      <tr><td>Solenoid</td><td>6 nucleosomes/turn</td><td>30 nm</td></tr>
+      <tr><td>Looped domains</td><td>Scaffolded loops</td><td>300 nm</td></tr>
+      <tr><td>Metaphase chromosome</td><td>Maximally condensed</td><td>700 nm</td></tr>
+    </table>
+  </div>
+
+  <div id="bio-replication" class="sub-page">
+    <h2>DNA Replication</h2>
+    <p>Meselson and Stahl (1958) proved <strong>semi-conservative replication</strong> using ¹⁵N/¹⁴N density gradient centrifugation. Each new DNA molecule has one original strand and one newly synthesized strand.</p>
+
+    <div class="key-box bio">
+      <div class="kl">Origin of Replication</div>
+      In <em>E. coli</em>: single origin (oriC). In eukaryotes: <strong>multiple origins</strong> (thousands), allowing faster replication of large genomes. Replication is bidirectional from each origin.
+    </div>
+
+    <h3>Key Enzymes in Replication</h3>
+    <table class="data-table">
+      <tr><th>Enzyme</th><th>Function</th></tr>
+      <tr><td>Helicase</td><td>Unwinds/separates the two strands at replication fork</td></tr>
+      <tr><td>Primase</td><td>Synthesizes short RNA primer (5–10 nt); needed to start replication</td></tr>
+      <tr><td>DNA Pol III</td><td>Main replication enzyme in prokaryotes; adds dNTPs in 5'→3' direction</td></tr>
+      <tr><td>DNA Pol I</td><td>Removes RNA primers; fills the gap with DNA</td></tr>
+      <tr><td>DNA Ligase</td><td>Joins Okazaki fragments; seals nicks in sugar-phosphate backbone</td></tr>
+      <tr><td>Topoisomerase</td><td>Relieves torsional stress ahead of replication fork</td></tr>
+      <tr><td>SSB proteins</td><td>Keep strands separated (single-strand binding proteins)</td></tr>
+    </table>
+
+    <h3>Leading vs Lagging Strand</h3>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-title" style="color:var(--accent-bio)">Leading Strand</div>
+        <p>Synthesized <strong>continuously</strong> in 5'→3' direction towards the fork. Needs only one primer.</p>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--accent-gold)">Lagging Strand</div>
+        <p>Synthesized <strong>discontinuously</strong> away from the fork as <strong>Okazaki fragments</strong>. Each fragment needs its own primer. Fragments are ~1000–2000 nt in prokaryotes; ~100–200 nt in eukaryotes.</p>
+      </div>
+    </div>
+
+    <div class="key-box gold">
+      <div class="kl">NEET Trick</div>
+      DNA Pol cannot initiate new chains — it can only <strong>extend</strong>. That's why RNA primer is needed. DNA synthesis is always <strong>5' → 3'</strong>. The template is read <strong>3' → 5'</strong>.
+    </div>
+  </div>
+
+  <div id="bio-transcription" class="sub-page">
+    <h2>Transcription</h2>
+    <p>DNA → RNA. The process of copying genetic information from DNA into mRNA. Only <strong>one strand</strong> of DNA (the template/antisense strand, read 3'→5') is transcribed.</p>
+
+    <h3>Transcription in Prokaryotes</h3>
+    <ul class="concept-list">
+      <li><strong>Single RNA Pol</strong> (core enzyme: α₂ββ'ω; holoenzyme with σ factor) does all transcription</li>
+      <li><strong>σ (sigma) factor</strong> recognizes the promoter region (Pribnow box: -10 region; -35 region)</li>
+      <li>RNA Pol moves 3'→5' on template, synthesizes RNA 5'→3'</li>
+      <li><strong>Rho-independent termination</strong>: hairpin loop + poly-U sequence</li>
+      <li><strong>Rho-dependent</strong>: Rho protein unwinds RNA-DNA hybrid</li>
+    </ul>
+
+    <h3>Transcription in Eukaryotes</h3>
+    <table class="data-table">
+      <tr><th>RNA Pol</th><th>Product</th><th>Location</th></tr>
+      <tr><td>RNA Pol I</td><td>rRNA (28S, 18S, 5.8S)</td><td>Nucleolus</td></tr>
+      <tr><td>RNA Pol II</td><td>hnRNA → mRNA</td><td>Nucleoplasm</td></tr>
+      <tr><td>RNA Pol III</td><td>tRNA, 5S rRNA, snRNA</td><td>Nucleoplasm</td></tr>
+    </table>
+
+    <h3>Post-Transcriptional Processing (Eukaryotes)</h3>
+    <div class="key-box chem">
+      <div class="kl">hnRNA → mRNA Processing</div>
+      <strong>1. Capping</strong> — 7-methylguanosine cap added to 5' end (protects from exonucleases; helps ribosome recognition)<br><br>
+      <strong>2. Polyadenylation</strong> — poly-A tail (~200 A residues) added to 3' end (stability + nuclear export)<br><br>
+      <strong>3. Splicing</strong> — introns removed, exons joined by spliceosomes (snRNPs). Mature mRNA leaves nucleus.
+    </div>
+  </div>
+
+  <div id="bio-translation" class="sub-page">
+    <h2>Translation (Protein Synthesis)</h2>
+    <p>mRNA → Protein. Occurs at ribosomes in cytoplasm. Uses aminoacyl-tRNAs, requires energy (ATP + GTP).</p>
+
+    <h3>Types of RNA</h3>
+    <table class="data-table">
+      <tr><th>RNA Type</th><th>Function</th><th>% of total RNA</th></tr>
+      <tr><td>mRNA</td><td>Carries genetic code; template for protein synthesis</td><td>~5%</td></tr>
+      <tr><td>tRNA</td><td>Adaptor; carries amino acids; has anticodon</td><td>~15%</td></tr>
+      <tr><td>rRNA</td><td>Structural + catalytic component of ribosome</td><td>~80%</td></tr>
+    </table>
+
+    <h3>Ribosome Structure</h3>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-title">Prokaryote (70S)</div>
+        <p>50S large subunit (23S + 5S rRNA + 34 proteins)<br>30S small subunit (16S rRNA + 21 proteins)</p>
+      </div>
+      <div class="card">
+        <div class="card-title">Eukaryote (80S)</div>
+        <p>60S large subunit (28S + 5.8S + 5S rRNA + ~49 proteins)<br>40S small subunit (18S rRNA + ~33 proteins)</p>
+      </div>
+    </div>
+
+    <h3>Stages of Translation</h3>
+    <ul class="concept-list">
+      <li><strong>Activation</strong> — Amino acids attached to tRNA by aminoacyl-tRNA synthetase (uses ATP → AMP)</li>
+      <li><strong>Initiation</strong> — Small subunit binds mRNA at Shine-Dalgarno sequence (prokaryotes) or 5' cap (eukaryotes). Start codon = AUG (Met). Large subunit joins.</li>
+      <li><strong>Elongation</strong> — A site: incoming aminoacyl-tRNA; P site: peptidyl-tRNA; E site: exit. Peptide bond by peptidyl transferase (ribozyme activity of 23S rRNA). Ribosome translocates 3'.</li>
+      <li><strong>Termination</strong> — Stop codons: UAA, UAG, UGA. Release factors cause polypeptide release.</li>
+    </ul>
+
+    <div class="key-box bio">
+      <div class="kl">Polysome / Polyribosome</div>
+      Multiple ribosomes translating a single mRNA simultaneously = <strong>polysome</strong>. Increases efficiency of protein synthesis significantly.
+    </div>
+  </div>
+
+  <div id="bio-geneticcode" class="sub-page">
+    <h2>Genetic Code</h2>
+    <p>The rules by which nucleotide triplets (codons) specify amino acids.</p>
+
+    <h3>Properties of Genetic Code</h3>
+    <ul class="concept-list">
+      <li><strong>Triplet</strong> — 3 nucleotides = 1 codon; 4³ = 64 possible codons</li>
+      <li><strong>Degenerate</strong> — most amino acids have multiple codons (except Met and Trp)</li>
+      <li><strong>Non-overlapping</strong> — each nucleotide is part of only one codon</li>
+      <li><strong>Non-ambiguous</strong> — each codon specifies only one amino acid</li>
+      <li><strong>Comma-less</strong> — no punctuation between codons; read continuously</li>
+      <li><strong>Universal</strong> — same in almost all organisms (exceptions: mitochondria, mycoplasma)</li>
+      <li><strong>AUG</strong> — start codon (codes for Met; formyl-Met in prokaryotes)</li>
+      <li><strong>UAA, UAG, UGA</strong> — stop codons (non-sense codons; no tRNA for them)</li>
+    </ul>
+
+    <div class="key-box gold">
+      <div class="kl">Important codons to memorize</div>
+      AUG = Start (Met) · UAA = Ochre · UAG = Amber · UGA = Opal/Umber<br>
+      UGG = Trp (only codon for Trp) · Met (AUG) and Trp (UGG) are the only non-degenerate ones.
+    </div>
+
+    <h3>Central Dogma</h3>
+    <div class="diagram-box">
+      <div style="display:flex; align-items:center; justify-content:center; gap:16px; flex-wrap:wrap; padding:12px 0;">
+        <div style="background:rgba(74,222,128,0.15); border:1px solid rgba(74,222,128,0.3); border-radius:10px; padding:12px 20px; font-weight:600; color:var(--accent-bio)">DNA</div>
+        <div style="color:var(--text3); font-size:20px">→</div>
+        <div style="background:rgba(96,165,250,0.15); border:1px solid rgba(96,165,250,0.3); border-radius:10px; padding:12px 20px; font-weight:600; color:var(--accent-chem)">RNA</div>
+        <div style="color:var(--text3); font-size:20px">→</div>
+        <div style="background:rgba(251,191,36,0.15); border:1px solid rgba(251,191,36,0.3); border-radius:10px; padding:12px 20px; font-weight:600; color:var(--accent-gold)">Protein</div>
+      </div>
+      <p style="font-size:12px; color:var(--text3); margin-top:8px">Reverse transcription (RNA→DNA) occurs in retroviruses (HIV) via reverse transcriptase.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== CHEM THEORY ===================== -->
+<div id="page-chem-theory" class="page">
+  <div class="section-badge badge-chem">Class 11 · Organic Chemistry</div>
+  <h1>Organic Chemistry Fundamentals</h1>
+  <p class="subtitle">Hybridization, IUPAC naming, isomers — complete NEET-focused notes</p>
+
+  <div class="sub-tabs">
+    <button class="sub-tab active" onclick="showSubPage('chem','hybrid')">Hybridization</button>
+    <button class="sub-tab" onclick="showSubPage('chem','iupac')">IUPAC Naming</button>
+    <button class="sub-tab" onclick="showSubPage('chem','isomers')">Isomerism</button>
+    <button class="sub-tab" onclick="showSubPage('chem','reactions')">Key Reactions</button>
+  </div>
+
+  <div id="chem-hybrid" class="sub-page active">
+    <h2>Hybridization</h2>
+    <p>Hybridization is the intermixing of atomic orbitals of <strong>comparable energy</strong> to form new hybrid orbitals with equivalent energy and shape.</p>
+
+    <table class="data-table">
+      <tr><th>Hybridization</th><th>Orbitals Mixed</th><th>Shape</th><th>Bond Angle</th><th>Examples</th></tr>
+      <tr><td>sp³</td><td>1s + 3p</td><td>Tetrahedral</td><td>109.5°</td><td>CH₄, CCl₄, ethane</td></tr>
+      <tr><td>sp²</td><td>1s + 2p</td><td>Trigonal planar</td><td>120°</td><td>Ethylene (C₂H₄), benzene</td></tr>
+      <tr><td>sp</td><td>1s + 1p</td><td>Linear</td><td>180°</td><td>Acetylene (C₂H₂), CO₂</td></tr>
+    </table>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-title" style="color:var(--accent-chem)">sp³ — Methane (CH₄)</div>
+        <p>Carbon forms 4 equivalent sp³ hybrid orbitals. All C–H bonds are sigma (σ). No pi bonds. Free rotation around C–C bonds. Each H–C–H angle = 109.5°</p>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--accent-bio)">sp² — Ethylene (C₂H₄)</div>
+        <p>Each carbon: 3 sp² orbitals (σ bonds) + 1 unhybridized p orbital. The p orbitals overlap sideways → 1 π bond. C=C has 1σ + 1π. Molecule is planar.</p>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--accent-gold)">sp — Acetylene (C₂H₂)</div>
+        <p>Each carbon: 2 sp orbitals (σ bonds) + 2 unhybridized p orbitals. Two p–p overlaps → 2 π bonds. C≡C has 1σ + 2π. Molecule is linear.</p>
+      </div>
+    </div>
+
+    <div class="key-box chem">
+      <div class="kl">Bond Character Rule</div>
+      <strong>Single bond = σ only</strong> · <strong>Double bond = 1σ + 1π</strong> · <strong>Triple bond = 1σ + 2π</strong><br>
+      Rotation is free around σ bonds but restricted around π bonds (causes geometric isomerism in alkenes).
+    </div>
+
+    <h3>Inductive Effect & Bond Polarity</h3>
+    <ul class="concept-list">
+      <li><strong>+I effect</strong> (electron-donating): alkyl groups — order: C(CH₃)₃ > CH(CH₃)₂ > CH₂CH₃ > CH₃</li>
+      <li><strong>–I effect</strong> (electron-withdrawing): –NO₂ > –CN > –COOH > –F > –Cl > –Br > –I</li>
+      <li><strong>Electronegativity</strong> order: F > O > N > Cl > Br > C > H</li>
+    </ul>
+  </div>
+
+  <div id="chem-iupac" class="sub-page">
+    <h2>IUPAC Nomenclature</h2>
+    <p>International Union of Pure and Applied Chemistry rules for systematic naming of organic compounds.</p>
+
+    <h3>Steps for IUPAC Naming</h3>
+    <ul class="concept-list">
+      <li><strong>Step 1: Longest chain</strong> — find the longest continuous carbon chain (parent chain)</li>
+      <li><strong>Step 2: Principal characteristic group</strong> — the highest priority functional group gets lowest locant</li>
+      <li><strong>Step 3: Numbering</strong> — number from the end nearest the principal group</li>
+      <li><strong>Step 4: Substituents</strong> — name alphabetically (ignore prefixes di/tri/etc.)</li>
+      <li><strong>Step 5: Assemble</strong> — substituents (alphabetical) + parent + suffix</li>
+    </ul>
+
+    <h3>Functional Group Priority (decreasing)</h3>
+    <table class="data-table">
+      <tr><th>Group</th><th>Suffix</th><th>Example</th></tr>
+      <tr><td>–COOH (Carboxylic acid)</td><td>-oic acid</td><td>Ethanoic acid (CH₃COOH)</td></tr>
+      <tr><td>–CHO (Aldehyde)</td><td>-al</td><td>Methanal (HCHO)</td></tr>
+      <tr><td>C=O (Ketone)</td><td>-one</td><td>Propan-2-one (acetone)</td></tr>
+      <tr><td>–OH (Alcohol)</td><td>-ol</td><td>Ethanol (C₂H₅OH)</td></tr>
+      <tr><td>–NH₂ (Amine)</td><td>-amine</td><td>Methanamine (CH₃NH₂)</td></tr>
+      <tr><td>C=C (Alkene)</td><td>-ene</td><td>Ethene (CH₂=CH₂)</td></tr>
+      <tr><td>C≡C (Alkyne)</td><td>-yne</td><td>Ethyne (HC≡CH)</td></tr>
+    </table>
+
+    <h3>Parent Chain Prefixes</h3>
+    <table class="data-table">
+      <tr><th>Carbons</th><th>Prefix</th><th>Carbons</th><th>Prefix</th></tr>
+      <tr><td>1</td><td>Meth-</td><td>6</td><td>Hex-</td></tr>
+      <tr><td>2</td><td>Eth-</td><td>7</td><td>Hept-</td></tr>
+      <tr><td>3</td><td>Prop-</td><td>8</td><td>Oct-</td></tr>
+      <tr><td>4</td><td>But-</td><td>9</td><td>Non-</td></tr>
+      <tr><td>5</td><td>Pent-</td><td>10</td><td>Dec-</td></tr>
+    </table>
+
+    <div class="key-box chem">
+      <div class="kl">Quick Examples</div>
+      CH₃–CH₂–OH = <strong>Ethanol</strong><br>
+      CH₃–CO–CH₃ = <strong>Propan-2-one</strong><br>
+      CH₃–CH(Cl)–CH₃ = <strong>2-chloropropane</strong><br>
+      CH₂=CH–CH₃ = <strong>Prop-1-ene</strong><br>
+      CH₃–CH₂–CHO = <strong>Propanal</strong>
+    </div>
+  </div>
+
+  <div id="chem-isomers" class="sub-page">
+    <h2>Isomerism</h2>
+    <p>Isomers are compounds with the <strong>same molecular formula</strong> but different structural arrangements or spatial orientations.</p>
+
+    <div class="card-grid">
+      <div class="card" style="border-top:3px solid var(--accent-chem)">
+        <div class="card-title">Structural Isomerism</div>
+        <ul class="concept-list" style="margin-top:8px">
+          <li><strong>Chain isomers</strong>: differ in carbon skeleton (e.g., butane vs isobutane)</li>
+          <li><strong>Position isomers</strong>: differ in position of substituent/double bond</li>
+          <li><strong>Functional group isomers</strong>: differ in functional group (alcohol vs ether)</li>
+          <li><strong>Metamerism</strong>: differ in alkyl groups on either side of same functional group</li>
+          <li><strong>Tautomerism</strong>: keto-enol tautomers (dynamic interconversion)</li>
+        </ul>
+      </div>
+      <div class="card" style="border-top:3px solid var(--accent-bio)">
+        <div class="card-title">Stereoisomerism</div>
+        <ul class="concept-list" style="margin-top:8px">
+          <li><strong>Geometrical (cis-trans)</strong>: requires restricted rotation (double bond) + two different groups on each C</li>
+          <li><strong>Optical isomerism</strong>: non-superimposable mirror images (enantiomers); requires chiral carbon (4 different groups)</li>
+          <li><strong>Conformational</strong>: different spatial arrangements via bond rotation (not true isomers)</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Cis-Trans Examples</h3>
+    <div class="key-box chem">
+      <div class="kl">2-butene</div>
+      <strong>cis-2-butene</strong>: both CH₃ groups on same side → higher boiling point (more polar)<br>
+      <strong>trans-2-butene</strong>: CH₃ groups on opposite sides → more stable (less steric strain)
+    </div>
+
+    <h3>Optical Isomerism Key Points</h3>
+    <ul class="concept-list">
+      <li><strong>Chiral carbon (asymmetric carbon)</strong>: C with 4 different substituents — marked with asterisk (*)</li>
+      <li><strong>Enantiomers</strong>: non-superimposable mirror images; opposite optical rotation (+/–)</li>
+      <li><strong>Racemic mixture (±)</strong>: equimolar mixture of enantiomers; optically inactive</li>
+      <li><strong>Diastereomers</strong>: stereoisomers that are not mirror images; different physical properties</li>
+      <li><strong>Meso compound</strong>: has chiral centres but internal plane of symmetry; optically inactive</li>
+    </ul>
+
+    <div class="key-box gold">
+      <div class="kl">NEET Formula</div>
+      Max optical isomers = 2ⁿ (n = number of chiral carbons) · For meso compounds, actual = less than 2ⁿ
+    </div>
+  </div>
+
+  <div id="chem-reactions" class="sub-page">
+    <h2>Key Organic Reactions</h2>
+
+    <h3>Types of Organic Reactions</h3>
+    <table class="data-table">
+      <tr><th>Type</th><th>Description</th><th>Example</th></tr>
+      <tr><td>Substitution</td><td>One atom/group replaced by another</td><td>CH₄ + Cl₂ → CH₃Cl + HCl (free radical)</td></tr>
+      <tr><td>Addition</td><td>Two molecules combine into one</td><td>CH₂=CH₂ + HBr → CH₃CH₂Br (Markovnikov)</td></tr>
+      <tr><td>Elimination</td><td>Atoms removed to form π bond</td><td>CH₃CH₂Br + KOH(alc) → CH₂=CH₂</td></tr>
+      <tr><td>Rearrangement</td><td>Intramolecular rearrangement</td><td>1° carbocation → 2° carbocation (hydride shift)</td></tr>
+    </table>
+
+    <h3>Markovnikov's Rule</h3>
+    <div class="key-box chem">
+      <div class="kl">Rule</div>
+      In addition of HX to an unsymmetrical alkene, the <strong>H</strong> adds to the carbon with <strong>more hydrogens</strong> (hydrogen-rich carbon), and <strong>X</strong> adds to the carbon with fewer hydrogens.<br><br>
+      <strong>Why?</strong> Electrophilic addition goes through the more stable carbocation intermediate (3° > 2° > 1° > CH₃⁺).
+    </div>
+
+    <h3>Reactive Intermediates</h3>
+    <table class="data-table">
+      <tr><th>Intermediate</th><th>Nature</th><th>Stability</th></tr>
+      <tr><td>Carbocation (R⁺)</td><td>Electron-deficient</td><td>3° > 2° > 1° > CH₃⁺ (hyperconjugation, +I effect)</td></tr>
+      <tr><td>Carbanion (R⁻)</td><td>Electron-rich</td><td>CH₃⁻ > 1° > 2° > 3° (opposite; –I groups stabilize)</td></tr>
+      <tr><td>Free radical (R•)</td><td>1 unpaired electron</td><td>3° > 2° > 1° (same as carbocation)</td></tr>
+      <tr><td>Carbene (:CR₂)</td><td>Neutral, 2 non-bonded e⁻</td><td>Singlet (paired) and triplet (unpaired) states</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ===================== FLASHCARDS ===================== -->
+<div id="page-flashcards" class="page">
+  <div class="section-badge badge-gold">Study Tool</div>
+  <h1>Flashcard Revision</h1>
+  <p class="subtitle">Click any card to flip it. Track your mastery below.</p>
+
+  <div class="fc-progress">
+    <div class="fc-stat">Reviewed: <span id="fc-reviewed">0</span>/40</div>
+    <div style="flex:1; margin: 0 16px;">
+      <div class="prog-bar"><div class="prog-fill" id="fc-prog" style="width:0%"></div></div>
+    </div>
+    <button class="btn" onclick="resetFlashcards()">Reset</button>
+  </div>
+
+  <div style="display:flex; gap:12px; margin-bottom:20px; flex-wrap:wrap;">
+    <button class="btn primary" onclick="filterFC('all')">All (40)</button>
+    <button class="btn" onclick="filterFC('bio')" style="border-color:var(--accent-bio); color:var(--accent-bio)">Biology (20)</button>
+    <button class="btn" onclick="filterFC('chem')" style="border-color:var(--accent-chem); color:var(--accent-chem)">Chemistry (20)</button>
+  </div>
+
+  <div class="fc-grid" id="fc-grid"></div>
+</div>
+
+<!-- ===================== BIO QUIZ ===================== -->
+<div id="page-bio-quiz" class="page">
+  <div class="section-badge badge-bio">50 Questions · Genetics</div>
+  <h1>Biology Quiz</h1>
+  <div class="quiz-header">
+    <p class="subtitle" style="margin:0">NEET-style MCQs on Molecular Basis of Inheritance</p>
+    <div class="quiz-meta">Score: <span id="bio-score">0</span>/<span id="bio-total">0</span></div>
+  </div>
+  <div class="prog-bar"><div class="prog-fill" id="bio-prog" style="width:0%;background:var(--accent-bio)"></div></div>
+  <div id="bio-quiz-container"></div>
+  <div class="btn-row">
+    <button class="btn primary" onclick="submitQuiz('bio')">Submit & Check</button>
+    <button class="btn" onclick="resetQuiz('bio')">Reset Quiz</button>
+  </div>
+  <div id="bio-result" style="display:none;">
+    <div class="score-box">
+      <div class="score-num" id="bio-score-num"></div>
+      <div class="score-label">out of 50 questions</div>
+    </div>
+    <div id="bio-mistakes"></div>
+  </div>
+</div>
+
+<!-- ===================== CHEM QUIZ ===================== -->
+<div id="page-chem-quiz" class="page">
+  <div class="section-badge badge-chem">50 Questions · Organic Chemistry</div>
+  <h1>Chemistry Quiz</h1>
+  <div class="quiz-header">
+    <p class="subtitle" style="margin:0">NEET-style MCQs on Hybridization, IUPAC, Isomerism</p>
+    <div class="quiz-meta">Score: <span id="chem-score">0</span>/<span id="chem-total">0</span></div>
+  </div>
+  <div class="prog-bar"><div class="prog-fill" id="chem-prog" style="width:0%;background:var(--accent-chem)"></div></div>
+  <div id="chem-quiz-container"></div>
+  <div class="btn-row">
+    <button class="btn chem-primary" onclick="submitQuiz('chem')">Submit & Check</button>
+    <button class="btn" onclick="resetQuiz('chem')">Reset Quiz</button>
+  </div>
+  <div id="chem-result" style="display:none;">
+    <div class="score-box">
+      <div class="score-num" id="chem-score-num"></div>
+      <div class="score-label">out of 50 questions</div>
+    </div>
+    <div id="chem-mistakes"></div>
+  </div>
+</div>
+
+<!-- ===================== MISTAKE DIARY ===================== -->
+<div id="page-mistake-diary" class="page">
+  <div class="section-badge badge-gold">Track Your Errors</div>
+  <h1>Mistake Diary</h1>
+  <p class="subtitle">Wrong answers from quizzes are automatically logged here. Review regularly!</p>
+  <div id="mistake-list">
+    <p style="color:var(--text3)">No mistakes logged yet. Complete a quiz to see your errors here.</p>
+  </div>
+  <div class="btn-row" style="margin-top:32px;">
+    <button class="btn" onclick="clearMistakes()">Clear All Mistakes</button>
+  </div>
+</div>
+
+<script>
+// ======== NAV ========
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ======== SUB TABS ========
+function showSubPage(section, id) {
+  const parent = section === 'bio' ? 'page-bio-theory' : 'page-chem-theory';
+  const pageEl = document.getElementById(parent);
+  pageEl.querySelectorAll('.sub-page').forEach(p => p.classList.remove('active'));
+  pageEl.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(section + '-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ======== FLASHCARD DATA ========
+const flashcards = [
+  // Biology (20)
+  { tag:'bio', term:'Central Dogma', def:'DNA → RNA → Protein. The flow of genetic information. Reverse transcription (RNA→DNA) by retroviruses is an exception.' },
+  { tag:'bio', term:'Nucleosome', def:'Basic unit of chromatin: 146 bp DNA wrapped ~1.65 turns around a histone octamer (H2A, H2B, H3, H4 × 2 each). H1 is the linker histone.' },
+  { tag:'bio', term:'Chargaff\'s Rules', def:'[A]=[T] and [G]=[C] in double-stranded DNA. Purines always equal pyrimidines. Consequence of complementary base pairing.' },
+  { tag:'bio', term:'Semi-conservative Replication', def:'Each new DNA molecule retains one original (parental) strand and one newly synthesized strand. Proven by Meselson & Stahl (1958) using ¹⁵N/¹⁴N.' },
+  { tag:'bio', term:'Okazaki Fragments', def:'Short DNA fragments (~100–200 nt in eukaryotes; ~1000–2000 nt in prokaryotes) synthesized discontinuously on the lagging strand during replication.' },
+  { tag:'bio', term:'RNA Polymerase II', def:'Synthesizes hnRNA (precursor to mRNA) in eukaryotes. Requires general transcription factors and promoter elements like TATA box.' },
+  { tag:'bio', term:'Splicing', def:'Removal of introns and joining of exons from pre-mRNA (hnRNA). Catalyzed by spliceosomes (snRNPs). Produces mature mRNA in eukaryotes.' },
+  { tag:'bio', term:'Codon', def:'Triplet of nucleotides in mRNA that codes for one amino acid (or stop). 64 codons total: 61 sense + 3 stop (UAA, UAG, UGA). AUG = start.' },
+  { tag:'bio', term:'tRNA Structure', def:'Cloverleaf secondary structure; L-shaped 3D. Has anticodon loop (base-pairs with mRNA codon) and 3\' CCA-OH end (amino acid attachment).' },
+  { tag:'bio', term:'Shine-Dalgarno Sequence', def:'Purine-rich ribosome binding sequence on prokaryotic mRNA (5\'-AGGAGG-3\'), ~10 nt upstream of AUG. Complementary to 3\' end of 16S rRNA.' },
+  { tag:'bio', term:'Degenerate Genetic Code', def:'Most amino acids are encoded by more than one codon (synonymous codons). Only Met (AUG) and Trp (UGG) have a single codon each.' },
+  { tag:'bio', term:'Replication Fork', def:'Y-shaped region of replicating DNA where the helicase unwinds the double helix. New strands are synthesized here. Moves bidirectionally from origins.' },
+  { tag:'bio', term:'DNA Pol III', def:'Main replicative polymerase in E. coli. Adds dNTPs in 5\'→3\' direction, reads template 3\'→5\'. Has proofreading (3\'→5\' exonuclease) activity.' },
+  { tag:'bio', term:'Promoter', def:'DNA sequence where RNA polymerase binds to initiate transcription. In prokaryotes: –10 (Pribnow box: TATAAT) and –35 (TTGACA) regions.' },
+  { tag:'bio', term:'Poly-A Tail', def:'~200 adenylate residues added post-transcriptionally to 3\' end of eukaryotic mRNA. Protects from degradation; aids nuclear export and translation initiation.' },
+  { tag:'bio', term:'5\' Cap', def:'7-methylguanosine (m⁷G) added to 5\' end of eukaryotic mRNA. Protects from exonucleases; required for ribosome binding during translation initiation.' },
+  { tag:'bio', term:'Aminoacyl-tRNA Synthetase', def:'Enzyme that covalently attaches correct amino acid to its cognate tRNA (charges the tRNA). Uses 2 ATP equivalents (ATP → AMP + PPi). One enzyme per amino acid.' },
+  { tag:'bio', term:'Peptidyl Transferase', def:'Enzyme activity of the large ribosomal subunit (23S rRNA in prokaryotes) that catalyzes peptide bond formation. It\'s a ribozyme (RNA-based enzyme).' },
+  { tag:'bio', term:'Transposons (Jumping Genes)', def:'Mobile genetic elements that can change position within the genome. Discovered by Barbara McClintock. Can cause mutations by disrupting genes.' },
+  { tag:'bio', term:'lac Operon', def:'Inducible operon in E. coli for lactose metabolism. Contains lacZ (β-galactosidase), lacY (permease), lacA (transacetylase). Inducer = allolactose.' },
+  // Chemistry (20)
+  { tag:'chem', term:'sp³ Hybridization', def:'1s + 3p orbitals mix to form 4 equivalent sp³ orbitals. Tetrahedral geometry (109.5°). Only σ bonds. Example: CH₄, C₂H₆, NH₃ (3 sp³ + 1 lone pair).' },
+  { tag:'chem', term:'sp² Hybridization', def:'1s + 2p → 3 sp² orbitals (trigonal planar, 120°). One unhybridized p orbital → 1 π bond. Example: C₂H₄ (ethylene), benzene, C=O compounds.' },
+  { tag:'chem', term:'sp Hybridization', def:'1s + 1p → 2 sp orbitals (linear, 180°). Two unhybridized p orbitals → 2 π bonds. Example: C₂H₂ (acetylene), CO₂, HCN.' },
+  { tag:'chem', term:'Inductive Effect', def:'Permanent polarization of σ bonds due to electronegativity differences. +I (electron-donating): alkyl groups. –I (electron-withdrawing): halogens, –NO₂, –CN.' },
+  { tag:'chem', term:'Markovnikov\'s Rule', def:'In electrophilic addition of HX to asymmetric alkenes: H adds to C with more H atoms; X adds to C with fewer H atoms. Goes through more stable carbocation.' },
+  { tag:'chem', term:'IUPAC Suffix for Alcohol', def:'-ol (e.g., ethanol). The –OH carbon gets the lowest possible locant. If –OH and another principal group present, –OH becomes "hydroxy-" prefix.' },
+  { tag:'chem', term:'Geometric (cis-trans) Isomerism', def:'Arises due to restricted rotation around C=C. Requires: (a) C=C bond, (b) each sp² C must have two different groups. Not possible if any C has two identical groups.' },
+  { tag:'chem', term:'Optical Isomerism', def:'Due to chiral carbon (asymmetric carbon, sp³ C with 4 different groups). Enantiomers rotate plane-polarized light equally but in opposite directions (+/–).' },
+  { tag:'chem', term:'Carbocation Stability', def:'3° > 2° > 1° > methyl. Stabilized by: (a) hyperconjugation — more α-hydrogens give more stability; (b) +I effect of alkyl groups.' },
+  { tag:'chem', term:'Free Radical Stability', def:'3° > 2° > 1° > CH₃• (same order as carbocations). Stabilized by hyperconjugation and +I effect. Less stable = more reactive.' },
+  { tag:'chem', term:'Carbanion Stability', def:'Opposite of carbocation: CH₃⁻ > 1° > 2° > 3°. Stabilized by –I effect (electronegative groups) and resonance (conjugation). Destabilized by +I effect.' },
+  { tag:'chem', term:'Nucleophile vs Electrophile', def:'Nucleophile: electron-rich species; attacks positive/partial + centre (e.g., OH⁻, CN⁻, NH₃). Electrophile: electron-deficient; accepts electron pair (e.g., H⁺, NO₂⁺, BF₃).' },
+  { tag:'chem', term:'Functional Group Isomers', def:'Same molecular formula, different functional groups. Examples: C₂H₆O → ethanol (alcohol) or dimethyl ether. C₃H₆O₂ → propanoic acid or methyl acetate.' },
+  { tag:'chem', term:'Resonance', def:'Delocalization of π electrons across multiple bonds (conjugated system). Resonance hybrid is more stable than any single resonance structure. Benzene is the classic example.' },
+  { tag:'chem', term:'Hyperconjugation', def:'Delocalization of σ-bonding electrons (C–H or C–C bonds adjacent to sp² C/carbocation) into the empty p/π orbital. More α-H atoms = greater stabilization.' },
+  { tag:'chem', term:'Electrophilic Addition (EAS) to Alkenes', def:'Step 1: electrophile (E⁺) attacks π bond → carbocation. Step 2: nucleophile attacks carbocation. Rate-determining step = carbocation formation.' },
+  { tag:'chem', term:'SN1 vs SN2', def:'SN1: 2-step; via carbocation; 1st order; racemization; 3° > 2°. SN2: 1-step; backside attack; 2nd order; inversion (Walden inversion); 1° > 2°; no 3°.' },
+  { tag:'chem', term:'Elimination (E1/E2)', def:'E1: 2-step; carbocation; 1st order; Zaitsev product; high temp. E2: 1-step, anti-periplanar; 2nd order; strong base; Zaitsev rule applies.' },
+  { tag:'chem', term:'Zaitsev\'s Rule', def:'In elimination reactions, the more substituted alkene (more stable, has more alkyl groups on C=C) is the major product. Called Saytzeff or Zaitsev.' },
+  { tag:'chem', term:'Tautomerism', def:'Keto-enol tautomerism: rapid interconversion between keto (C=O) and enol (C–OH with C=C) forms. Keto form usually more stable. Catalysed by acid/base.' },
+];
+
+let fcReviewed = new Set();
+let currentFilter = 'all';
+
+function renderFC(filter) {
+  currentFilter = filter;
+  const grid = document.getElementById('fc-grid');
+  const data = filter === 'all' ? flashcards : flashcards.filter(f => f.tag === filter);
+  grid.innerHTML = data.map((f, i) => `
+    <div class="fc-card" id="fc-${i}" onclick="flipCard(${i}, '${filter}')">
+      <div class="fc-inner">
+        <div class="fc-front">
+          <span class="fc-tag ${f.tag}">${f.tag === 'bio' ? 'Biology' : 'Chemistry'}</span>
+          <div class="fc-term">${f.term}</div>
+          <div class="fc-hint" style="margin-top:auto">Click to reveal definition →</div>
+        </div>
+        <div class="fc-back">
+          <span class="fc-tag ${f.tag}">${f.tag === 'bio' ? 'Biology' : 'Chemistry'}</span>
+          <div class="fc-def">${f.def}</div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function flipCard(idx, filter) {
+  const card = document.getElementById('fc-' + idx);
+  card.classList.toggle('flipped');
+  const key = filter + '-' + idx;
+  if (!fcReviewed.has(key)) {
+    fcReviewed.add(key);
+    updateFCProgress();
+  }
+}
+
+function updateFCProgress() {
+  const reviewed = fcReviewed.size;
+  document.getElementById('fc-reviewed').textContent = reviewed;
+  document.getElementById('fc-prog').style.width = Math.min(100, (reviewed / 40) * 100) + '%';
+}
+
+function filterFC(filter) {
+  fcReviewed.clear();
+  updateFCProgress();
+  renderFC(filter);
+  document.getElementById('fc-reviewed').textContent = '0';
+}
+
+function resetFlashcards() {
+  fcReviewed.clear();
+  updateFCProgress();
+  renderFC(currentFilter);
+}
+
+renderFC('all');
+
+// ======== QUIZ DATA ========
+const bioQuestions = [
+  { q:"The DNA double helix was proposed by Watson and Crick in:", opts:["1944","1953","1958","1965"], ans:1, exp:"Watson and Crick proposed the double helix model in 1953, based on X-ray diffraction data from Rosalind Franklin." },
+  { q:"How many hydrogen bonds form between adenine and thymine in DNA?", opts:["1","2","3","4"], ans:1, exp:"A=T forms 2 hydrogen bonds. G≡C forms 3 hydrogen bonds. This difference makes G-C rich regions more stable/higher melting point." },
+  { q:"The number of base pairs per turn in B-form DNA is:", opts:["8","10","12","14"], ans:1, exp:"B-DNA (most common in cells) has 10 bp per turn, a pitch of 3.4 nm, and a diameter of 2 nm." },
+  { q:"Semi-conservative replication was demonstrated by:", opts:["Watson & Crick","Griffith","Meselson & Stahl","Hershey & Chase"], ans:2, exp:"Meselson and Stahl (1958) used ¹⁵N heavy isotope labeling and density gradient centrifugation in E. coli to prove semi-conservative replication." },
+  { q:"Which enzyme removes the RNA primer during DNA replication in E. coli?", opts:["DNA Pol I","DNA Pol II","DNA Pol III","Ligase"], ans:0, exp:"DNA Pol I removes RNA primers using its 5'→3' exonuclease activity and fills the gap with DNA." },
+  { q:"Okazaki fragments are joined by:", opts:["Helicase","Primase","DNA Ligase","Topoisomerase"], ans:2, exp:"DNA Ligase seals the nick between adjacent Okazaki fragments by forming a phosphodiester bond." },
+  { q:"The enzyme that synthesizes RNA primer during DNA replication is:", opts:["Helicase","Primase","DNA Pol III","Telomerase"], ans:1, exp:"Primase synthesizes short RNA primers (5–10 nucleotides) needed to start DNA synthesis, because DNA Pol III cannot initiate new chains." },
+  { q:"Which of the following is the template strand read direction during transcription?", opts:["5'→3'","3'→5'","Both directions","Random"], ans:1, exp:"RNA Pol reads the template strand in the 3'→5' direction and synthesizes mRNA in the 5'→3' direction." },
+  { q:"In eukaryotes, mRNA synthesis is carried out by:", opts:["RNA Pol I","RNA Pol II","RNA Pol III","All of the above"], ans:1, exp:"RNA Pol II synthesizes hnRNA, which is processed into mature mRNA. RNA Pol I makes rRNA; RNA Pol III makes tRNA and 5S rRNA." },
+  { q:"The 7-methylguanosine cap is added to which end of eukaryotic mRNA?", opts:["3' end","5' end","Both ends","Internal position"], ans:1, exp:"The 5' cap (7-methylguanosine) is added co-transcriptionally and protects mRNA from exonucleases; it's also required for ribosome recognition." },
+  { q:"How many nucleotides wrap around one nucleosome core particle?", opts:["100","120","146","200"], ans:2, exp:"146 bp of DNA wraps 1.65 turns around the histone octamer (H2A×2, H2B×2, H3×2, H4×2). Linker DNA connects adjacent nucleosomes." },
+  { q:"The start codon is:", opts:["UAA","UAG","UGA","AUG"], ans:3, exp:"AUG codes for Methionine and serves as the start codon in all organisms. In prokaryotes, the initiator amino acid is formyl-methionine (fMet)." },
+  { q:"Which codons are STOP codons? (Choose the set)", opts:["UAA, UAG, UGA","UAA, AUG, UGA","UAG, UGG, UAA","UGA, AUG, UAA"], ans:0, exp:"UAA (Ochre), UAG (Amber), and UGA (Opal/Umber) are the three stop codons. No tRNA recognizes these codons." },
+  { q:"The property of the genetic code that states each codon specifies only one amino acid is:", opts:["Degeneracy","Universality","Non-ambiguity","Commaless"], ans:2, exp:"Non-ambiguity means each codon has only one meaning (one amino acid). This is different from degeneracy (one amino acid has multiple codons)." },
+  { q:"Which amino acid has only ONE codon?", opts:["Leucine","Arginine","Tryptophan","Serine"], ans:2, exp:"Tryptophan (Trp) = UGG only. Methionine (AUG) is also non-degenerate. Leu, Arg, and Ser each have 6 codons." },
+  { q:"Peptide bond formation in ribosomes is catalyzed by:", opts:["Aminoacyl-tRNA synthetase","Peptidyl transferase","Ribokinase","Release factor"], ans:1, exp:"Peptidyl transferase activity resides in the 23S rRNA (large subunit) in prokaryotes — it's a ribozyme. This is evidence for RNA World hypothesis." },
+  { q:"Ribosomes are made up of rRNA and proteins. In E. coli, the large subunit is:", opts:["30S","40S","50S","60S"], ans:2, exp:"E. coli ribosome: 70S total = 50S large (23S + 5S rRNA + 34 proteins) + 30S small (16S rRNA + 21 proteins). S = Svedberg units." },
+  { q:"The anticodon is located on:", opts:["mRNA","rRNA","tRNA","DNA"], ans:2, exp:"tRNA has the anticodon loop (with anticodon triplet) that base-pairs with the codon on mRNA. The amino acid is attached to the 3' CCA-OH end of tRNA." },
+  { q:"In eukaryotes, introns are removed from pre-mRNA by:", opts:["Ribozymes","Spliceosomes","Ribosomes","DNA Pol"], ans:1, exp:"Spliceosomes (complexes of snRNPs — small nuclear ribonucleoproteins) catalyze the removal of introns and joining of exons." },
+  { q:"Which model of replication was disproved by Meselson-Stahl experiment?", opts:["Semi-conservative","Conservative","Dispersive","Both B and C"], ans:3, exp:"Both Conservative (parental strands stay together) and Dispersive (random mixing) models were disproved. Semi-conservative was proven correct." },
+  { q:"The Shine-Dalgarno sequence is found in:", opts:["Eukaryotic mRNA","Prokaryotic mRNA","tRNA anticodon loop","5' cap"], ans:1, exp:"Shine-Dalgarno is a purine-rich ribosome-binding sequence on prokaryotic mRNA, ~10 nt upstream of AUG. It's complementary to the 3' end of 16S rRNA." },
+  { q:"What is the role of sigma (σ) factor in transcription?", opts:["Unwinds DNA","Recognizes promoter","Terminates transcription","Removes primers"], ans:1, exp:"σ factor is part of the holoenzyme in bacteria. It recognizes the –10 and –35 promoter sequences and is released after transcription initiation." },
+  { q:"The Pribnow box in prokaryotic promoters is located at:", opts:["-10 region","-35 region","+1 site","-50 region"], ans:0, exp:"The Pribnow box (consensus sequence TATAAT) is at the –10 region. The –35 region (consensus TTGACA) is also important for σ factor binding." },
+  { q:"The maximum number of optical isomers for a compound with 3 chiral carbons is:", opts:["4","6","8","16"], ans:2, exp:"Max optical isomers = 2ⁿ = 2³ = 8. However, if meso forms are possible (internal plane of symmetry), the actual number may be less." },
+  { q:"Which experiment proved DNA is the genetic material in bacteriophage?", opts:["Griffith's experiment","Avery-MacLeod-McCarty","Hershey-Chase experiment","Meselson-Stahl"], ans:2, exp:"Hershey and Chase (1952) used ³⁵S-labeled proteins and ³²P-labeled DNA in T2 phage. Only ³²P DNA entered the bacterial host, proving DNA is genetic material." },
+  { q:"The lagging strand is synthesized:", opts:["Continuously in 5'→3'","Continuously in 3'→5'","Discontinuously in 5'→3'","Discontinuously in 3'→5'"], ans:2, exp:"The lagging strand is synthesized discontinuously in 5'→3' direction (in short Okazaki fragments) because DNA Pol can only add in 5'→3', but the template runs 5'→3'." },
+  { q:"The poly-A tail added to eukaryotic mRNA contains approximately how many nucleotides?", opts:["10–20","50–100","~200","1000+"], ans:2, exp:"About 200 adenylate residues are added to the 3' end post-transcriptionally by poly-A polymerase. This aids mRNA stability and nuclear export." },
+  { q:"Which histone is the linker histone?", opts:["H1","H2A","H3","H4"], ans:0, exp:"H1 is the linker histone that binds to the linker DNA between nucleosomes. H2A, H2B, H3, H4 form the octamer core of the nucleosome." },
+  { q:"E-site on the ribosome is:", opts:["Aminoacyl-tRNA binding site","Peptidyl-tRNA site","Exit site for deacylated tRNA","Enzyme active site"], ans:2, exp:"The ribosome has 3 sites: A site (aminoacyl, incoming tRNA), P site (peptidyl, growing chain), and E site (exit, for deacylated tRNA leaving the ribosome)." },
+  { q:"The process where mRNA from a retrovirus is used to make DNA is called:", opts:["Transcription","Reverse transcription","Translation","Transduction"], ans:1, exp:"Reverse transcription uses the RNA as template to synthesize DNA, catalyzed by reverse transcriptase. HIV uses this. It's an exception to the central dogma." },
+  { q:"How many amino acids are encoded by the genetic code (standard)?", opts:["20","21","22","64"], ans:0, exp:"The standard genetic code encodes 20 amino acids (using 61 sense codons) + 3 stop codons. Some organisms use selenocysteine (21st) or pyrrolysine (22nd)." },
+  { q:"The number of amino acids coded by 2 codons each is:", opts:["2","5","3","4"], ans:2, exp:"Amino acids with exactly 2 codons: Phe (UUU, UUC), Tyr (UAU, UAC), Cys (UGU, UGC), His (CAU, CAC), Gln (CAA, CAG), Asn (AAU, AAC), Lys (AAA, AAG), Asp (GAU, GAC), Glu (GAA, GAG) — actually 9. This question likely refers to single-codon: Met and Trp." },
+  { q:"The 3' end of tRNA always has the sequence:", opts:["AUG","CCA","GGU","UAA"], ans:1, exp:"All tRNAs end with 5'-CCA-3' at their 3' end. The amino acid is attached to the 3'-OH of this terminal adenosine via an ester bond." },
+  { q:"The fidelity of DNA replication is maintained by:", opts:["Primase","Proofreading activity of DNA Pol III","Ligase","Helicase"], ans:1, exp:"DNA Pol III has 3'→5' exonuclease proofreading activity that removes incorrectly incorporated nucleotides. This reduces errors to ~1 in 10⁹–10¹⁰." },
+  { q:"In lac operon, the inducer molecule is:", opts:["Lactose","Allolactose","Glucose","Galactose"], ans:1, exp:"Allolactose (an isomer of lactose) is the actual inducer that binds to the lac repressor, causing it to dissociate from the operator, allowing transcription." },
+  { q:"Repetitive DNA sequences at the ends of eukaryotic chromosomes are called:", opts:["Centromeres","Telomeres","Origins of replication","Enhancers"], ans:1, exp:"Telomeres are repetitive DNA sequences (e.g., TTAGGG in humans) at chromosomal ends. They protect chromosomes from degradation and prevent end-to-end fusion." },
+  { q:"The enzyme telomerase contains:", opts:["Only protein","Only RNA","Both RNA and protein","Neither"], ans:2, exp:"Telomerase is a ribonucleoprotein enzyme containing an RNA template (used to extend telomeres) and a reverse transcriptase protein component." },
+  { q:"Which of the following is NOT a post-transcriptional modification?", opts:["5' capping","Polyadenylation","Splicing","Initiation of translation"], ans:3, exp:"Initiation of translation is a translational process, not post-transcriptional modification. Capping, polyadenylation, and splicing are the three main modifications of hnRNA." },
+  { q:"The sedimentation coefficient of eukaryotic ribosome is:", opts:["70S","80S","90S","60S"], ans:1, exp:"Eukaryotic ribosomes are 80S (60S + 40S). Prokaryotic ribosomes are 70S (50S + 30S). Mitochondrial ribosomes are 55S–70S depending on organism." },
+  { q:"DNA replication occurs in which phase of the cell cycle?", opts:["G1 phase","S phase","G2 phase","M phase"], ans:1, exp:"DNA synthesis (replication) occurs during the S (Synthesis) phase of the cell cycle. G1 and G2 are gap/growth phases; M phase is mitosis." },
+  { q:"Which of the following has the highest GC content?", opts:["AT-rich heterochromatin","Constitutive heterochromatin","Euchromatin","Satellite DNA"], ans:2, exp:"Euchromatin (transcriptionally active) tends to have higher GC content and is less condensed. Heterochromatin and satellite DNA are typically AT-rich." },
+  { q:"Reverse transcriptase is found in:", opts:["Retroviruses","Bacteriophages","Normal eukaryotic cells","Prokaryotes"], ans:0, exp:"Retroviruses (like HIV) carry reverse transcriptase, which converts viral RNA genome into DNA that integrates into the host genome as a provirus." },
+  { q:"A codon on mRNA corresponds to a sequence on tRNA called:", opts:["Exon","Intron","Anticodon","Promoter"], ans:2, exp:"The anticodon is a trinucleotide sequence on tRNA that is complementary and antiparallel to the codon on mRNA. It ensures correct amino acid delivery." },
+  { q:"The sugar present in RNA is:", opts:["Deoxyribose","Ribose","Fructose","Glucose"], ans:1, exp:"RNA contains ribose (has –OH at 2' carbon), while DNA contains deoxyribose (has –H at 2' carbon). This makes RNA less stable than DNA." },
+  { q:"Which type of RNA is most abundant in the cell?", opts:["mRNA","tRNA","rRNA","snRNA"], ans:2, exp:"rRNA constitutes ~80% of total cellular RNA. It is the major structural and catalytic component of ribosomes. mRNA is only ~5% of total RNA." },
+  { q:"The genetic code was experimentally deciphered mainly by:", opts:["Watson & Crick","Nirenberg & Khorana","Meselson & Stahl","Jacob & Monod"], ans:1, exp:"Marshall Nirenberg and Har Gobind Khorana deciphered the genetic code using synthetic polynucleotides and cell-free translation systems. Nobel Prize 1968." },
+  { q:"Chargaff's rules apply to:", opts:["Single-stranded DNA only","Double-stranded DNA","RNA","Both DNA and RNA"], ans:1, exp:"Chargaff's rules ([A]=[T], [G]=[C]) apply to double-stranded DNA. In single-stranded DNA and RNA, these ratios can vary." },
+  { q:"Which component is NOT part of a nucleotide?", opts:["Phosphate group","Nitrogenous base","Deoxyribose sugar","Amino acid"], ans:3, exp:"A nucleotide consists of: phosphate group + pentose sugar (ribose or deoxyribose) + nitrogenous base. Amino acids are the building blocks of proteins, not nucleotides." },
+  { q:"The distance between two adjacent base pairs in DNA is:", opts:["0.2 nm","0.34 nm","2 nm","3.4 nm"], ans:1, exp:"Adjacent base pairs are 0.34 nm (3.4 Å) apart. One full turn = 3.4 nm = 10 bp × 0.34 nm/bp. Diameter of helix = 2 nm." },
+  { q:"The process of producing multiple copies of a gene in test tube is called:", opts:["Transcription","PCR (Polymerase Chain Reaction)","Translation","Transduction"], ans:1, exp:"PCR (Polymerase Chain Reaction) uses DNA Pol (Taq polymerase) to amplify a specific DNA sequence in vitro. It requires primers, dNTPs, and cycles of denaturation/annealing/extension." },
+];
+
+const chemQuestions = [
+  { q:"The hybridization of carbon in ethylene (C₂H₄) is:", opts:["sp³","sp²","sp","sp³d"], ans:1, exp:"Each carbon in ethylene forms 3 σ bonds (sp² hybrid) + 1 π bond using the unhybridized p orbital. Bond angle = 120°. Geometry = trigonal planar." },
+  { q:"The bond angle in methane (CH₄) is:", opts:["90°","104.5°","109.5°","120°"], ans:2, exp:"sp³ hybridization gives tetrahedral geometry with bond angle 109.5°. NH₃ has 107° and H₂O has 104.5° due to lone pair repulsion." },
+  { q:"Acetylene (C₂H₂) has hybridization:", opts:["sp³","sp²","sp","sp³d"], ans:2, exp:"sp hybridization: each C forms 2 sp hybrid orbitals for σ bonds + 2 unhybridized p orbitals for 2 π bonds. Bond angle = 180° (linear)." },
+  { q:"IUPAC name of CH₃–CH(OH)–CH₃ is:", opts:["Propan-1-ol","Propan-2-ol","2-methylpropanol","Isopropanol"], ans:1, exp:"The parent chain is propane (3C). –OH is on C2. The IUPAC name is propan-2-ol. 'Isopropanol' is a common name." },
+  { q:"The IUPAC name of CH₃COCH₃ is:", opts:["Propanone","Propan-2-one","Dimethyl ketone","Both A and B"], ans:3, exp:"CH₃COCH₃ (acetone) is named propan-2-one (position number for the C=O) or propanone (since only one possible position). Both A and B are correct IUPAC names." },
+  { q:"Which compound shows geometric isomerism?", opts:["CH₃CH₃","CH₂=CH₂","CH₃CH=CHCH₃","CH₃C(CH₃)=CH₂"], ans:2, exp:"But-2-ene (CH₃CH=CHCH₃) shows cis-trans isomerism because each sp² carbon has two different groups. CH₂=CH₂ and CH₃C(CH₃)=CH₂ don't (one C has 2 identical groups)." },
+  { q:"A compound with molecular formula C₄H₁₀O can show how many chain isomers of alcohols?", opts:["1","2","3","4"], ans:1, exp:"C₄H₉OH has 2 chain isomers: butan-1-ol (n-butyl) and 2-methylpropan-1-ol (isobutyl). Including position/type isomers there are more, but chain isomers = 2." },
+  { q:"The most stable carbocation is:", opts:["CH₃⁺","C₂H₅⁺","(CH₃)₂CH⁺","(CH₃)₃C⁺"], ans:3, exp:"Tertiary carbocation (CH₃)₃C⁺ is most stable due to maximum hyperconjugation (9 α-hydrogens) and +I effect of three methyl groups. 3° > 2° > 1° > methyl." },
+  { q:"Markovnikov's rule predicts the major product of HBr addition to propene:", opts:["1-bromopropane","2-bromopropane","1,2-dibromopropane","3-bromopropane"], ans:1, exp:"H adds to CH₂= (C1, more H), Br adds to C2 (less H). This goes through secondary carbocation (2°) which is more stable than primary." },
+  { q:"Which of the following is an electrophile?", opts:["NH₃","H₂O","BF₃","CN⁻"], ans:2, exp:"BF₃ is an electrophile — B has an empty p orbital and is electron-deficient (Lewis acid). NH₃, H₂O, and CN⁻ are nucleophiles (have lone pairs)." },
+  { q:"The IUPAC name of CH₃CH₂CHO is:", opts:["Ethanal","Propanal","Propanone","Butanal"], ans:1, exp:"3-carbon chain with –CHO at end. Parent chain = prop-, suffix for aldehyde = -al. Name = propanal." },
+  { q:"How many sigma (σ) bonds are present in ethyne (C₂H₂)?", opts:["2","3","4","5"], ans:1, exp:"Ethyne: H–C≡C–H. Bonds: H–C (σ), C≡C (1σ + 2π), C–H (σ). Total σ bonds = 3. Total π bonds = 2." },
+  { q:"Optical isomers are non-superimposable mirror images. They are called:", opts:["Diastereomers","Enantiomers","Conformational isomers","Constitutional isomers"], ans:1, exp:"Non-superimposable mirror image pairs are enantiomers. They have the same physical properties except rotation of plane-polarized light (equal but opposite)." },
+  { q:"A molecule with 2 chiral carbons can have a maximum of how many stereoisomers?", opts:["2","4","8","3"], ans:1, exp:"Maximum = 2ⁿ = 2² = 4. But if a meso form is possible, actual number is 3 (2 enantiomers + 1 meso compound)." },
+  { q:"Which reaction is characteristic of alkenes?", opts:["Free radical substitution","Nucleophilic substitution","Electrophilic addition","Elimination"], ans:2, exp:"Alkenes undergo electrophilic addition — the π bond acts as a nucleophile and attacks the electrophile (H⁺, Br₂, HX). This is the most characteristic reaction of C=C." },
+  { q:"The inductive effect of –F, –Cl, –Br, –I in decreasing order is:", opts:["F>Cl>Br>I","I>Br>Cl>F","F>I>Cl>Br","Cl>F>Br>I"], ans:0, exp:"Electron-withdrawing (–I) inductive effect decreases with increasing atomic size: F > Cl > Br > I. Fluorine is most electronegative and has the strongest –I effect." },
+  { q:"The IUPAC name of (CH₃)₂CHCH₂OH is:", opts:["2-methylpropan-1-ol","2-methylpropan-2-ol","Isobutanol","1-methylpropan-2-ol"], ans:0, exp:"Parent chain = propane (3 C in longest chain with –OH). –OH at C1; methyl branch at C2. Name: 2-methylpropan-1-ol. (Common name: isobutanol)" },
+  { q:"Which statement about the inductive effect is CORRECT?", opts:["It operates through π bonds","It decreases with chain length","It is a temporary effect","All halogens have +I effect"], ans:1, exp:"The inductive effect decreases with increasing distance from the functional group. It operates through σ bonds (permanent polarization). Halogens have –I effect." },
+  { q:"Functional group isomers of alcohols (–OH) are:", opts:["Ketones","Aldehydes","Ethers","Carboxylic acids"], ans:2, exp:"Alcohols (R–OH) and ethers (R–O–R') are functional group isomers with the same molecular formula CₙH₂ₙ₊₂O. Example: C₂H₆O = ethanol or dimethyl ether." },
+  { q:"The number of π bonds in benzene is:", opts:["0","3","6","5"], ans:1, exp:"Benzene (C₆H₆) has 3 π bonds in the Kekulé structure (alternating double bonds). Due to resonance, the electrons are delocalized over all 6 carbons." },
+  { q:"Hyperconjugation stabilizes carbocations. The order of stability is based on:", opts:["Number of β-H atoms","Number of α-H atoms","Chain length","Number of carbon atoms"], ans:1, exp:"Hyperconjugation involves delocalization of α-C–H σ electrons into the empty p orbital. More α-hydrogens = more hyperconjugation = more stability." },
+  { q:"SN2 reactions proceed with:", opts:["Retention of configuration","Racemization","Inversion of configuration","No stereospecificity"], ans:2, exp:"SN2 is a backside attack (nucleophile attacks from the side opposite the leaving group), resulting in complete Walden inversion (inversion of configuration) at the chiral center." },
+  { q:"Which compound cannot show cis-trans isomerism?", opts:["2-butene","1-chloropropene","2-methylpropene","1,2-dichloroethene"], ans:2, exp:"2-methylpropene: (CH₃)₂C=CH₂. One carbon of the double bond has two identical CH₃ groups, so cis-trans isomerism is not possible (need two different groups on EACH carbon)." },
+  { q:"The IUPAC name of CH₃CH₂C≡CH is:", opts:["But-1-yne","But-2-yne","Pent-1-yne","1-butyne"], ans:0, exp:"4-carbon chain (but-) with triple bond starting at C1 (yne). The triple bond gets the lowest possible locant. Name: but-1-yne." },
+  { q:"Keto-enol tautomerism is observed in:", opts:["Benzene","Ethanol","Acetaldehyde","Chloroform"], ans:2, exp:"Acetaldehyde (CH₃CHO) shows keto-enol tautomerism: keto form ⇌ enol form (CH₂=CHOH). The keto form is ~99.9% dominant at equilibrium." },
+  { q:"The +I effect of alkyl groups is in the order:", opts:["CH₃ > C₂H₅ > (CH₃)₂CH > (CH₃)₃C","(CH₃)₃C > (CH₃)₂CH > C₂H₅ > CH₃","C₂H₅ > CH₃ > (CH₃)₂CH > (CH₃)₃C","All equal"], ans:1, exp:"+I effect increases with branching/chain length: tert-butyl > isopropyl > ethyl > methyl. More alkyl groups attached = greater electron donation." },
+  { q:"A racemic mixture is:", opts:["A pure enantiomer","Equimolar mixture of enantiomers","Diastereomers mixture","Meso compound"], ans:1, exp:"A racemic mixture (racemate, ±) contains equal amounts of both enantiomers. It is optically inactive because the rotations cancel each other out." },
+  { q:"The hybridization of nitrogen in pyridine is:", opts:["sp³","sp²","sp","sp³d"], ans:1, exp:"Pyridine is an aromatic ring (like benzene) where N replaces one CH. N is sp² hybridized, contributing one lone pair to the non-bonding orbital (not the π system)." },
+  { q:"In elimination reactions, Zaitsev's rule states:", opts:["Less substituted alkene is major product","More substituted alkene is major product","No preference","Depends on temperature"], ans:1, exp:"Zaitsev's rule: elimination gives the more substituted (more stable) alkene as the major product. More substituted alkenes are stabilized by hyperconjugation." },
+  { q:"The IUPAC name of CH₃COOH is:", opts:["Methanoic acid","Ethanoic acid","Propanoic acid","Acetic acid"], ans:1, exp:"CH₃COOH has 2 carbons. Parent chain = ethan-. Functional group = carboxylic acid (-oic acid). Name: ethanoic acid. (Common name: acetic acid)" },
+  { q:"Which intermediate is formed in free radical reactions?", opts:["Carbocation","Carbanion","Free radical","All of the above"], ans:2, exp:"Free radical reactions (like halogenation of alkanes) proceed through free radical intermediates (species with an unpaired electron). Initiated by UV light or heat." },
+  { q:"The number of structural isomers of C₄H₁₀ is:", opts:["2","3","4","5"], ans:0, exp:"C₄H₁₀ has 2 structural isomers: n-butane (CH₃CH₂CH₂CH₃) and isobutane (2-methylpropane, (CH₃)₃CH)." },
+  { q:"Which of the following is a nucleophile?", opts:["H⁺","NO₂⁺","AlCl₃","OH⁻"], ans:3, exp:"OH⁻ (hydroxide) is a nucleophile — it has lone pairs and is electron-rich. H⁺, NO₂⁺ (nitronium), and AlCl₃ (Lewis acid) are all electrophiles." },
+  { q:"Meso compound is optically inactive because:", opts:["It has no chiral carbons","It has an internal plane of symmetry","It is a racemate","It has even number of chiral carbons"], ans:1, exp:"A meso compound has chiral carbons but contains an internal plane of symmetry, making it superimposable on its mirror image and therefore optically inactive." },
+  { q:"The IUPAC name of isopropyl alcohol is:", opts:["Propan-1-ol","Propan-2-ol","2-propanol","Both B and C"], ans:3, exp:"Isopropyl alcohol = (CH₃)₂CHOH. Systematic IUPAC names: propan-2-ol or 2-propanol. Both B and C are correct (locant before suffix or after parent)." },
+  { q:"Resonance is delocalization of:", opts:["σ electrons","π electrons","Both σ and π","Nuclear charge"], ans:1, exp:"Resonance involves delocalization of π electrons (and lone pairs in conjugation) across adjacent p orbitals. σ electrons are localized and don't participate in resonance." },
+  { q:"The number of π bonds in CO₂ is:", opts:["0","1","2","3"], ans:2, exp:"CO₂ = O=C=O. Each C=O has 1σ + 1π. Total: 2 π bonds. Carbon is sp hybridized (linear, 180°). Both oxygens are also sp hybridized." },
+  { q:"Which of the following shows metamerism?", opts:["n-butane and isobutane","Diethyl ether and methyl propyl ether","Ethanol and dimethyl ether","Butanal and butanone"], ans:1, exp:"Metamerism: same functional group, different alkyl groups on either side. Diethyl ether (C₂H₅–O–C₂H₅) and methyl propyl ether (CH₃–O–C₃H₇) are metamers." },
+  { q:"Anti-Markovnikov addition of HBr is observed in:", opts:["Ionic mechanism","Free radical mechanism","Both","Neither"], ans:1, exp:"Free radical mechanism (initiated by peroxides/UV) gives anti-Markovnikov product. Br• adds to the less substituted carbon (more accessible in free radical pathway)." },
+  { q:"The IUPAC suffix for a ketone is:", opts:["-al","-oic acid","-one","-ol"], ans:2, exp:"Ketone (C=O group flanked by 2 carbon groups) has the IUPAC suffix '-one'. Example: CH₃COCH₃ = propan-2-one." },
+  { q:"In SN1 reactions, the rate-determining step involves:", opts:["Formation of carbocation","Attack of nucleophile","Departure of leaving group and nucleophile attack simultaneously","Formation of carbanion"], ans:0, exp:"SN1 is a 2-step reaction. Step 1 (rate-determining, slow): ionization to form carbocation. Step 2 (fast): nucleophile attacks the carbocation." },
+  { q:"Number of σ bonds in ethane (C₂H₆) is:", opts:["5","6","7","8"], ans:2, exp:"Ethane: C–C (1σ) + 6 C–H bonds (6σ) = 7 σ bonds total. No π bonds in ethane (single bonds only, sp³ hybridization)." },
+  { q:"Which reagent converts alkene to anti-Markovnikov alcohol?", opts:["H₂O/H⁺","BH₃ then H₂O₂/NaOH (hydroboration-oxidation)","Hg(OAc)₂/H₂O","HOCl"], ans:1, exp:"Hydroboration-oxidation (BH₃ then H₂O₂/OH⁻) gives anti-Markovnikov, syn addition of water. Boron adds to the less substituted carbon (sterically controlled)." },
+  { q:"The geometry of a molecule with sp hybridization is:", opts:["Tetrahedral","Bent/Angular","Trigonal planar","Linear"], ans:3, exp:"sp hybridization uses 2 hybrid orbitals → linear geometry (180°). Examples: C₂H₂, BeCl₂, CO₂, HCN. Two unhybridized p orbitals form 2 π bonds." },
+  { q:"Which is a property of resonance structures?", opts:["They are in equilibrium","They are actual structures that exist","They are hypothetical contributors to the hybrid","They interconvert rapidly"], ans:2, exp:"Resonance structures are hypothetical (Lewis) structures. The actual molecule is the resonance hybrid (a weighted average). They are NOT in equilibrium — the molecule doesn't switch between them." },
+  { q:"The IUPAC name for CH₂=CH–CH₂–CH₃ is:", opts:["But-1-ene","But-2-ene","1-butene","Prop-1-ene"], ans:0, exp:"4-carbon chain (but-) with double bond at C1. IUPAC: but-1-ene. (Both 'but-1-ene' and '1-butene' are acceptable names; but-1-ene is preferred.)" },
+  { q:"Chain isomers differ in:", opts:["Position of functional group","Carbon skeleton","Functional group","Spatial arrangement"], ans:1, exp:"Chain isomers have the same molecular formula and functional group but differ in the carbon skeleton (chain branching). Example: n-butane vs isobutane (both C₄H₁₀)." },
+  { q:"The stability of carbanions follows the order:", opts:["3° > 2° > 1°","1° > 2° > 3°","Methyl > 1° > 2°","All equal"], ans:2, exp:"Carbanion stability: CH₃⁻ > 1° > 2° > 3° (opposite to carbocations). Electron-withdrawing groups stabilize carbanions; electron-donating alkyl groups destabilize them." },
+  { q:"Conformational isomers of ethane (staggered vs eclipsed) are:", opts:["True isomers","Interconvertible at room temperature","Separable","Constitutional isomers"], ans:1, exp:"Conformational isomers interconvert rapidly at room temperature via C–C bond rotation (low energy barrier ~12 kJ/mol). They cannot be separated and are not true isomers." },
+  { q:"The IUPAC name of CH₃–NH₂ is:", opts:["Methylamine","Methanamine","Aminomethane","Ethanamine"], ans:1, exp:"Primary amine with 1 carbon. Parent: meth-. Suffix for amine: -amine. IUPAC: methanamine. Common name: methylamine." },
+];
+
+let mistakes = JSON.parse(localStorage.getItem('neet-mistakes') || '[]');
+
+function renderQuiz(type, questions) {
+  const container = document.getElementById(type + '-quiz-container');
+  document.getElementById(type + '-total').textContent = questions.length;
+  container.innerHTML = questions.map((q, i) => `
+    <div class="q-card" id="${type}-q-${i}">
+      <div class="q-num">Q${i+1} of ${questions.length}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="q-options">
+        ${q.opts.map((opt, oi) => `
+          <div class="q-opt" id="${type}-opt-${i}-${oi}" onclick="selectOpt('${type}',${i},${oi})">
+            <span class="q-opt-label">${['A','B','C','D'][oi]}</span>
+            <span>${opt}</span>
+          </div>`).join('')}
+      </div>
+      <div class="q-explanation ${type === 'chem' ? 'chem' : ''}" id="${type}-exp-${i}">
+        <strong>Explanation:</strong> ${q.exp}
+      </div>
+    </div>`).join('');
+}
+
+const userAnswers = { bio: {}, chem: {} };
+
+function selectOpt(type, qIdx, optIdx) {
+  userAnswers[type][qIdx] = optIdx;
+  const opts = document.querySelectorAll(`[id^="${type}-opt-${qIdx}-"]`);
+  opts.forEach((o, i) => {
+    o.classList.remove('selected');
+    if (i === optIdx) o.classList.add('selected');
+  });
+  const qs = type === 'bio' ? bioQuestions : chemQuestions;
+  const answered = Object.keys(userAnswers[type]).length;
+  document.getElementById(type + '-prog').style.width = (answered / qs.length * 100) + '%';
+  document.getElementById(type + '-score').textContent = answered;
+}
+
+function submitQuiz(type) {
+  const qs = type === 'bio' ? bioQuestions : chemQuestions;
+  let score = 0;
+  const newMistakes = [];
+  qs.forEach((q, i) => {
+    const userAns = userAnswers[type][i];
+    const opts = document.querySelectorAll(`[id^="${type}-opt-${i}-"]`);
+    opts.forEach((o, oi) => {
+      o.style.pointerEvents = 'none';
+      o.classList.remove('selected');
+      if (oi === q.ans) o.classList.add('correct');
+      else if (oi === userAns && userAns !== q.ans) o.classList.add('wrong');
+    });
+    document.getElementById(type + '-exp-' + i).classList.add('show');
+    if (userAns === q.ans) score++;
+    else if (userAns !== undefined) {
+      newMistakes.push({
+        subject: type === 'bio' ? 'Biology' : 'Chemistry',
+        question: q.q,
+        yourAnswer: q.opts[userAns],
+        correct: q.opts[q.ans],
+        explanation: q.exp,
+        date: new Date().toLocaleDateString()
+      });
+    }
+  });
+  mistakes = [...mistakes, ...newMistakes];
+  localStorage.setItem('neet-mistakes', JSON.stringify(mistakes));
+  renderMistakeDiary();
+
+  const pct = score / qs.length * 100;
+  const numEl = document.getElementById(type + '-score-num');
+  numEl.textContent = score + '/' + qs.length;
+  numEl.className = 'score-num ' + (pct >= 70 ? 'good' : pct >= 50 ? 'ok' : 'bad');
+  document.getElementById(type + '-result').style.display = 'block';
+  document.getElementById(type + '-result').scrollIntoView({ behavior: 'smooth' });
+}
+
+function resetQuiz(type) {
+  userAnswers[type] = {};
+  document.getElementById(type + '-result').style.display = 'none';
+  document.getElementById(type + '-score').textContent = '0';
+  document.getElementById(type + '-prog').style.width = '0%';
+  const qs = type === 'bio' ? bioQuestions : chemQuestions;
+  renderQuiz(type, qs);
+}
+
+function renderMistakeDiary() {
+  const container = document.getElementById('mistake-list');
+  if (!mistakes.length) {
+    container.innerHTML = '<p style="color:var(--text3)">No mistakes logged yet. Complete a quiz to see your errors here.</p>';
+    return;
+  }
+  container.innerHTML = `<p style="color:var(--text2); margin-bottom:16px; font-size:14px">Total mistakes logged: <strong style="color:var(--wrong)">${mistakes.length}</strong></p>` +
+    mistakes.map((m, i) => `
+      <div class="mistake-entry">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:6px;">
+          <span style="font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.06em; color:${m.subject==='Biology' ? 'var(--accent-bio)' : 'var(--accent-chem)'}">
+            ${m.subject} · ${m.date}
+          </span>
+          <span style="font-size:11px; color:var(--text3)">#${i+1}</span>
+        </div>
+        <div style="font-size:14px; color:var(--text); margin-bottom:8px; line-height:1.5">${m.question}</div>
+        <div style="font-size:13px; margin-bottom:4px">Your answer: <strong style="color:var(--wrong)">${m.yourAnswer}</strong></div>
+        <div style="font-size:13px; margin-bottom:8px">Correct: <strong style="color:var(--accent-bio)">${m.correct}</strong></div>
+        <div style="font-size:12.5px; color:var(--text3); line-height:1.6; border-top:1px solid rgba(255,255,255,0.06); padding-top:8px">${m.explanation}</div>
+      </div>`).join('');
+}
+
+function clearMistakes() {
+  if (confirm('Clear all mistakes?')) {
+    mistakes = [];
+    localStorage.setItem('neet-mistakes', JSON.stringify([]));
+    renderMistakeDiary();
+  }
+}
+
+// Init
+renderQuiz('bio', bioQuestions);
+renderQuiz('chem', chemQuestions);
+renderMistakeDiary();
+</script>
+</body>
+</html>
